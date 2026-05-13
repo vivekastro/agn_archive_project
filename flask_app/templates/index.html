@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+    <title>AGN Archive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f7f7f7;
+        }
+        h1 {
+            color: #222;
+        }
+        .target-card {
+            background: white;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.12);
+        }
+        .target-card a {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1a4f8b;
+            text-decoration: none;
+        }
+        .target-card a:hover {
+            text-decoration: underline;
+        }
+        .meta {
+            color: #555;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>AGN Archive</h1>
+
+<p>Click on a target to view spectra and line measurements.</p>
+
+{% if targets %}
+    {% for target in targets %}
+        <div class="target-card">
+            <a href="{{ url_for('agn_archive.target_detail', target_id=target.target_id) }}">
+                {{ target.source_name }}
+            </a>
+
+            <div class="meta">
+                RA: {{ target.ra_deg }},
+                Dec: {{ target.dec_deg }},
+                z: {{ target.redshift }},
+                type: {{ target.object_type }}
+            </div>
+
+            {% if target.notes %}
+                <div class="meta">{{ target.notes }}</div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No targets found in the database.</p>
+{% endif %}
+
+</body>
+</html>
